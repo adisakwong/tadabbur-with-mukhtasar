@@ -280,6 +280,8 @@ function restoreBookmark() {
     if (bm.surah && state.surahs.find(s => s.number === bm.surah)) {
       selectSurah(bm.surah);
     }
+  } else {
+    selectSurah(1);
   }
 }
 
