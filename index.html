@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>อัลกุรอาน พร้อม Tajweed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<div class="header-inner">
+<h1>TTM</h1>
+<div class="header-surah-select">
+<select class="surah-dropdown" id="surahDropdown" onchange="selectSurah(+this.value)">
+<option value="">— เลือกซูเราะห์ —</option>
+</select>
+<div class="header-surah-info" id="headerSurahInfo"></div>
+</div>
+<div class="bm-header" id="bmHeader"></div>
+<div class="header-controls">
+<label class="toggle-label">
+<input type="checkbox" id="toggleTranslation" checked>
+<span class="toggle-text">คำแปล</span>
+</label>
+<label class="toggle-label">
+<input type="checkbox" id="toggleTajweed" checked>
+<span class="toggle-text">Tajweed</span>
+</label>
+<label class="toggle-label">
+<input type="checkbox" id="toggleRightPanel" checked>
+<span class="toggle-text">Maqasid</span>
+</label>
+<button class="bm-setup-btn" onclick="openBookmarkForm()" title="ตั้งค่าบุ๊คมาร์ค">ตั้งค่า</button>
+</div>
+    </div>
+</header>
+
+<main class="app-main">
+<aside class="panel-left">
+<iframe id="leftFrame" class="panel-iframe"></iframe>
+</aside>
+
+<aside class="panel-right">
+<iframe id="rightFrame" class="panel-iframe"></iframe>
+</aside>
+</main>
+
+<!-- Bookmark Modal -->
+<div class="modal-overlay" id="bookmarkModal" onclick="closeBookmarkForm(event)">
+<div class="modal-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<h2>ตั้งค่าบุ๊คมาร์ค</h2>
+<button class="modal-close" onclick="closeBookmarkForm()">✕</button>
+</div>
+<div class="modal-body">
+<div class="form-group">
+<label for="bmSurah">ซูเราะห์</label>
+<select id="bmSurah" onchange="onBmSurahChange()">
+<option value="">— เลือกซูเราะห์ —</option>
+</select>
+</div>
+      <div class="form-group">
+        <label for="bmAyah">อายะห์ที่</label>
+        <input type="number" id="bmAyah" min="1" max="7" value="1">
+      </div>
+      <div class="form-group">
+        <label>รูปแบบข้อความอัลกุรอาน</label>
+        <div class="text-mode-group">
+          <label class="text-mode-option" id="optTajweed">
+            <input type="radio" name="bmTextMode" id="bmTextModeTajweed" value="tajweed" checked>
+            <span class="text-mode-icon">🌐</span>
+            <span class="text-mode-info">
+              <span class="text-mode-title">Tajweed (ออนไลน์)</span>
+              <span class="text-mode-desc">ข้อความพร้อมสีตัจญ์วีด — ต้องการอินเทอร์เน็ต</span>
+            </span>
+          </label>
+          <label class="text-mode-option" id="optUthmani">
+            <input type="radio" name="bmTextMode" id="bmTextModeUthmani" value="uthmani">
+            <span class="text-mode-icon">📖</span>
+            <span class="text-mode-info">
+              <span class="text-mode-title">Uthmani (ออฟไลน์)</span>
+              <span class="text-mode-desc">ข้อความอุษมานีพื้นฐาน — ไม่ต้องการอินเทอร์เน็ต</span>
+            </span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ขนาด Font อาหรับ</label>
+        <div class="font-size-control">
+          <button type="button" class="fs-preset-btn" onclick="setFontSize(1.4)">เล็ก</button>
+          <button type="button" class="fs-preset-btn" onclick="setFontSize(1.6)">กลาง</button>
+          <button type="button" class="fs-preset-btn" onclick="setFontSize(1.9)">ใหญ่</button>
+          <button type="button" class="fs-preset-btn" onclick="setFontSize(2.3)">ใหญ่มาก</button>
+        </div>
+        <div class="font-size-slider-row">
+          <span class="fs-min">أ</span>
+          <input type="range" id="bmFontSize" min="1.0" max="3.0" step="0.1" value="1.6" oninput="onFontSizeInput(this.value)">
+          <span class="fs-max">أ</span>
+          <span class="fs-value" id="fsValueDisplay">1.6rem</span>
+        </div>
+        <div class="fs-preview" id="fsPreview">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+      </div>
+</div>
+<div class="modal-footer">
+<button class="btn-cancel" onclick="closeBookmarkForm()">ยกเลิก</button>
+<button class="btn-save" onclick="submitBookmarkForm()">บันทึกบุ๊คมาร์ค</button>
+</div>
+</div>
+</div>
+
+<script src="maqasid_data.js"></script>
+<script src="thai-mukhtasar.js"></script>
+<script src="quran_uthmani_data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
