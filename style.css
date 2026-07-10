@@ -263,6 +263,13 @@ flex-direction: column;
 gap: 4px;
 }
 
+.form-row {
+display: flex;
+flex-direction: row;
+gap: 12px;
+}
+.form-row .form-group { flex: 1; }
+
 .form-group label {
 font-size: 0.82rem;
 font-weight: 500;
@@ -474,4 +481,5 @@ transition: background 0.15s;
 .header-surah-select .surah-dropdown { max-width: 120px; font-size: 0.75rem; padding: 4px 8px; }
 .header-surah-select .hsi-name { font-size: 0.9rem; }
 .header-surah-select .hsi-info { font-size: 0.65rem; }
+.form-row { flex-direction: column; gap: 4px; }
 }

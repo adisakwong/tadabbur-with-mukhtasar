@@ -12,13 +12,14 @@ const state = {
   translations: {},
   maqasidMap: {},
   surahMeta: {},
-  textMode: 'tajweed',        // 'tajweed' | 'uthmani'
+  textMode: 'tajweed',        // 'tajweed' | 'uthmani' | 'quran.com'
   arabicFontSize: 1.6         // rem
 };
 
 // Iframe communication
 let leftReady = false, rightReady = false;
 const leftQ = [], rightQ = [];
+let leftPanelIsQuranCom = false;
 
 function sendToLeft(data) {
   const f = $('leftFrame');
@@ -29,6 +30,13 @@ function sendToRight(data) {
   const f = $('rightFrame');
   if (rightReady && f && f.contentWindow) f.contentWindow.postMessage(data, '*');
   else rightQ.push(data);
+}
+
+function restoreLeftPanel() {
+  leftReady = false;
+  leftQ.length = 0;
+  leftPanelIsQuranCom = false;
+  $('leftFrame').src = URL.createObjectURL(new Blob([getLeftPanelHTML()], { type: 'text/html' }));
 }
 
 // ── Iframe HTML generators ──
@@ -430,15 +438,34 @@ function selectSurah(surahNumber, retry) {
   renderSurahList();
   updateSurahStickyBar(surah);
 
-  sendToLeft({ type: 'showLoading' });
-
   // Update right panel (maqasid)
   const maqasid = getMaqasid(String(surahNumber));
   const surahData = { name: surah.name, englishName: surah.englishName, number: surah.number };
   sendToRight({ type: 'render', maqasid: maqasid || null, surah: surahData });
 
-  // Load text based on current mode
   const mode = state.textMode || 'tajweed';
+  const bm = loadBookmark();
+  const targetAyah = (bm && bm.surah === surahNumber) ? bm.ayah : 1;
+  state.currentAyah = targetAyah;
+
+  // quran.com mode – load URL directly in iframe
+  if (mode === 'quran.com') {
+    if (!leftPanelIsQuranCom) leftPanelIsQuranCom = true;
+    $('leftFrame').src = `https://quran.com/${surahNumber}?startingVerse=${targetAyah}`;
+    if (_skipBookmarkSave) {
+      _skipBookmarkSave = false;
+      updateBookmarkDisplay(loadBookmark());
+    } else {
+      saveBookmark(surahNumber, targetAyah);
+    }
+    return;
+  }
+
+  // Restore left panel if it was showing quran.com
+  if (leftPanelIsQuranCom) restoreLeftPanel();
+
+  sendToLeft({ type: 'showLoading' });
+
   const loader = mode === 'uthmani'
     ? loadVersesUthmani(surahNumber)
     : loadVersesTajweed(surahNumber);
@@ -452,10 +479,6 @@ function selectSurah(surahNumber, retry) {
         text: v.text,
         translation: getTranslation(surahNumber, v.numberInSurah)
       }));
-
-      const bm = loadBookmark();
-      const targetAyah = (bm && bm.surah === surahNumber) ? bm.ayah : 1;
-      state.currentAyah = targetAyah;
 
       sendToLeft({
         type: 'render',

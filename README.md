@@ -1,30 +1,39 @@
-# TTM — Tadabbur with Mukhtasar
+# TTM — Thai Tadabbur with Mukhtasar
 
-เครื่องมืออ่านและศึกษาอัลกุรอานแบบเว็บ พร้อมคำแปลไทย (มุคตะศ็อร), ข้อความพร้อมสีตัจญ์วีด, และข้อมูลมาเกาะซิด (เป้าหมายของแต่ละซูเราะห์)
+A web-based tool for reading and studying the Quran with Thai translation (Mukhtasar), colored tajweed text, and Maqasid information (objectives of each surah).
 
-## คุณสมบัติ
+## Features
 
-- **ข้อความอัลกุรอาน** — แบบตัจญ์วีดมีสี (ออนไลน์ผ่าน API) หรือแบบอุษมานี (ออฟไลน์ จาก `quran_uthmani_data.js`)
-- **คำแปลไทย (มุคตะศ็อร)** — คำแปลและคำอธิบายสั้น ๆ ทุกอายะห์ โดย อะบูฮัมซะ อัลฟารซีย์
-- **แผง Maqasid** — หัวข้อตามกลุ่มอายะห์และเนื้อหาโดยรวมของแต่ละซูเราะห์ แสดงในแผงขวา พร้อม dropdown เลือกซูเราะห์อิสระ (ไม่กระทบแผงซ้าย)
-- **ซ่อน/แสดงแผงขวา** — สลับการแสดงแผง Maqasid ได้ แผงซ้ายจะขยายเต็มพื้นที่เมื่อซ่อน
-- **แบ่งหน้าจอสองแผง** — แผงซ้ายแสดงอายะห์พร้อมคำแปล แผงขวาแสดงข้อมูลซูเราะห์และหัวข้อตามกลุ่มอายะห์
-- **บุ๊คมาร์ค** — บันทึกตำแหน่งอ่าน (ซูเราะห์, อายะห์, โหมดข้อความ, ขนาดฟอนต์) ไว้ใน `localStorage` และคืนค่าอัตโนมัติเมื่อเปิดใหม่
-- **ปรับขนาดฟอนต์อาหรับ** — ปรับขนาดด้วยปุ่มสำเร็จรูปและแถบเลื่อน
-- **รองรับจอเล็ก** — แผงเรียงแนวตั้งเมื่อจอแคบ
+- **Quran Text** — Colored tajweed (online via API) or Uthmani script (offline, from `quran_uthmani_data.js`)
+- **Thai Translation (Mukhtasar)** — Short translation and explanation of each ayah by Abu Hamza Al-Farsi
+- **Maqasid Panel** — Topics by ayah group and overall content of each surah, displayed in the right panel with independent surah dropdown (does not affect the left panel)
+- **Toggle Right Panel** — Show/hide the Maqasid panel; the left panel expands to full width when hidden
+- **Split Screen** — Left panel shows ayah with translation, right panel shows surah info and topic groups
+- **Bookmarks** — Saves reading position (surah, ayah, text mode, font size) in `localStorage` and restores automatically on page load
+- **Arabic Font Size Adjustment** — Adjust using preset buttons and a slider
+- **Responsive Layout** — Panels stack vertically on narrow screens
 
-## ข้อมูล
+## Data Files
 
-- `thai-mukhtasar.js` — ข้อมูลคำแปลไทย โดย อะบูฮัมซะ อัลฟารซีย์ (`window.QURAN_TRANSLATION_DATA`)
-- `maqasid_data.js` — ข้อมูลมาเกาะซิดของแต่ละซูเราะห์ (`window.QURAN_MAP_DATA`)
-- `quran_uthmani_data.js` — ข้อความอักษรอุษมานี จาก [tanzil.net](https://tanzil.net) (`window.QURAN_UTHMANI_DATA`)
+- `thai-mukhtasar.js` — Thai translation data by Abu Hamza Al-Farsi (`window.QURAN_TRANSLATION_DATA`)
+- `maqasid_data.js` — Maqasid data for each surah (`window.QURAN_MAP_DATA`)
+- `quran_uthmani_data.js` — Uthmani script text from [tanzil.net](https://tanzil.net) (`window.QURAN_UTHMANI_DATA`)
 
-## การใช้งาน
+## Usage
 
-เปิดไฟล์ `index.html` ในเบราว์เซอร์ ข้อความตัจญ์วีดต้องใช้อินเทอร์เน็ต (ดึงจาก `api.alquran.cloud`) ส่วนข้อความอุษมานีและคำแปลใช้งานแบบออฟไลน์ได้
+1. Open `index.html` in any modern web browser.
+2. Use the surah dropdown in the left panel to select a surah to read.
+3. Switch between **Tajweed** (requires internet, fetched from `api.alquran.cloud`) and **Uthmani** (offline) text modes using the toggle.
+4. Adjust the Arabic font size using the preset buttons or the slider.
+5. The right panel displays the surah's Maqasid (objectives and themes). You can:
+   - Browse topics by ayah group
+   - Select a different surah in the right panel's dropdown without affecting the left panel
+   - Hide the right panel using the toggle button for a full-width reading experience
+6. Your reading position is saved automatically — close and reopen the page to resume where you left off.
+7. The Uthmani text and Thai translation work offline; tajweed text requires an active internet connection.
 
-## เครดิต
+## Credits
 
-- คำแปลไทย: อะบูฮัมซะ อัลฟารซีย์ (มุคตะศ็อร)
-- ข้อความอุษมานี: [tanzil.net](https://tanzil.net)
-- API อายะห์: [alquran.cloud](https://alquran.cloud)
+- Thai translation: Abu Hamza Al-Farsi (Mukhtasar)
+- Uthmani text: [tanzil.net](https://tanzil.net)
+- Ayah API: [alquran.cloud](https://alquran.cloud)
