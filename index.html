@@ -13,7 +13,7 @@
 <body>
 <header>
 <div class="header-inner">
-<h1>TTM</h1>
+<h1 onclick="openAbout()" class="about-btn">TTM<sup>&copy;</sup></h1>
 <div class="header-surah-select">
 <select class="surah-dropdown" id="surahDropdown" onchange="selectSurah(+this.value)">
 <option value="">— เลือกซูเราะห์ —</option>
@@ -26,14 +26,20 @@
 <input type="checkbox" id="toggleTranslation" checked>
 <span class="toggle-text">คำแปล</span>
 </label>
+<div class="toggle-group">
 <label class="toggle-label">
 <input type="checkbox" id="toggleTajweed" checked>
 <span class="toggle-text">Tajweed</span>
 </label>
+<span class="info-icon" onclick="openTajweedInfo()" title="เรียนรู้เกี่ยวกับสี Tajweed">ℹ</span>
+</div>
+<div class="toggle-group">
 <label class="toggle-label">
 <input type="checkbox" id="toggleRightPanel" checked>
 <span class="toggle-text">Maqasid</span>
 </label>
+<span class="info-icon" onclick="openMaqasidInfo()" title="เรียนรู้เกี่ยวกับ Maqasid">ℹ</span>
+</div>
 <button class="bm-setup-btn" onclick="openBookmarkForm()" title="ตั้งค่าบุ๊คมาร์ค">ตั้งค่า</button>
 </div>
     </div>
@@ -70,33 +76,12 @@
       </div>
       </div>
       <div class="form-group">
-        <label>รูปแบบข้อความอัลกุรอาน</label>
-        <div class="text-mode-group">
-          <label class="text-mode-option" id="optTajweed">
-            <input type="radio" name="bmTextMode" id="bmTextModeTajweed" value="tajweed" checked>
-            <span class="text-mode-icon">🌐</span>
-            <span class="text-mode-info">
-              <span class="text-mode-title">Tajweed (ออนไลน์)</span>
-              <span class="text-mode-desc">ข้อความพร้อมสีตัจญ์วีด — ต้องการอินเทอร์เน็ต</span>
-            </span>
-          </label>
-          <label class="text-mode-option" id="optUthmani">
-            <input type="radio" name="bmTextMode" id="bmTextModeUthmani" value="uthmani">
-            <span class="text-mode-icon">📖</span>
-            <span class="text-mode-info">
-              <span class="text-mode-title">Uthmani (ออฟไลน์)</span>
-              <span class="text-mode-desc">ข้อความอุษมานีพื้นฐาน — ไม่ต้องการอินเทอร์เน็ต</span>
-            </span>
-          </label>
-          <label class="text-mode-option" id="optQuranCom">
-            <input type="radio" name="bmTextMode" id="bmTextModeQuranCom" value="quran.com">
-            <span class="text-mode-icon">🕌</span>
-            <span class="text-mode-info">
-              <span class="text-mode-title">Quran.com (ออนไลน์)</span>
-              <span class="text-mode-desc">ข้อความจาก quran.com — ต้องการอินเทอร์เน็ต</span>
-            </span>
-          </label>
-        </div>
+        <label for="bmTextMode">รูปแบบข้อความอัลกุรอาน</label>
+        <select id="bmTextMode">
+          <option value="tajweed">🌐 Tajweed (ออนไลน์) — ข้อความพร้อมสีตัจญ์วีด</option>
+          <option value="uthmani">📖 Uthmani (ออฟไลน์) — ข้อความอุษมานีพื้นฐาน</option>
+          <option value="quran.com">🕌 Quran.com (ออนไลน์) — ข้อความจาก quran.com</option>
+        </select>
       </div>
       <div class="form-group">
         <label>ขนาด Font อาหรับ</label>
@@ -114,10 +99,190 @@
         </div>
         <div class="fs-preview" id="fsPreview">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
       </div>
+      <div class="form-group">
+        <label>ขนาด Font คำแปล</label>
+        <div class="font-size-control">
+          <button type="button" class="fs-preset-btn" onclick="setTranslationFontSize(0.75)">เล็ก</button>
+          <button type="button" class="fs-preset-btn" onclick="setTranslationFontSize(0.88)">กลาง</button>
+          <button type="button" class="fs-preset-btn" onclick="setTranslationFontSize(1.05)">ใหญ่</button>
+          <button type="button" class="fs-preset-btn" onclick="setTranslationFontSize(1.25)">ใหญ่มาก</button>
+        </div>
+        <div class="font-size-slider-row">
+          <span class="fs-min">ก</span>
+          <input type="range" id="bmTranslationFontSize" min="0.6" max="1.8" step="0.05" value="0.88" oninput="onTranslationFontSizeInput(this.value)">
+          <span class="fs-max">ก</span>
+          <span class="fs-value" id="tfsValueDisplay">0.88rem</span>
+        </div>
+        <div class="fs-preview tfs-preview" id="tfsPreview">ตั้งใจทำความดี แล้ว Allah จะทรงช่วยเหลือท่าน</div>
+      </div>
 </div>
 <div class="modal-footer">
 <button class="btn-cancel" onclick="closeBookmarkForm()">ยกเลิก</button>
 <button class="btn-save" onclick="submitBookmarkForm()">บันทึกบุ๊คมาร์ค</button>
+</div>
+</div>
+</div>
+
+<!-- Tajweed Info Modal -->
+<div class="modal-overlay" id="tajweedModal" onclick="closeTajweedInfo(event)">
+<div class="modal-box tajweed-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<h2>สี Tajweed คืออะไร?</h2>
+<button class="modal-close" onclick="closeTajweedInfo()">✕</button>
+</div>
+<div class="modal-body tajweed-body">
+<div class="tj-section">
+<div class="tj-desc">ตัจญ์วีด (Tajweed) คือกฎระเบียบในการออกเสียงอัลกุรอานอย่างถูกต้อง สีแต่ละสีบ่งบอกถึงกฎการออกเสียงที่แตกต่างกัน ช่วยให้ผู้อ่านทราบว่าควรออกเสียงอย่างไรในแต่ละตำแหน่ง</div>
+</div>
+<div class="tj-section">
+<h3>รายการสีและกฎตัจญ์วีด</h3>
+<div class="tj-color-list">
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#537FFF"></span>
+<div class="tj-info"><span class="tj-name">มีม ชั้ดดะฮ์ / อะลิฟ คันญะรียะฮ์</span><span class="tj-rule">Meem Shaddah / Alif Khanjariyyah</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#4050FF"></span>
+<div class="tj-info"><span class="tj-name">จิม / กัลกาะลอฮ์</span><span class="tj-rule">Jim / Qalqalah</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#000EBC"></span>
+<div class="tj-info"><span class="tj-name">วาว</span><span class="tj-rule">Waw</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#2144C1"></span>
+<div class="tj-info"><span class="tj-name">กุนูน / กอ Nose</span><span class="tj-rule">Ghunnah</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#D00"></span>
+<div class="tj-info"><span class="tj-name">กัลกาะลอฮ์ กุบรอ</span><span class="tj-rule">Qalqalah Kubra</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#D500B7"></span>
+<div class="tj-info"><span class="tj-name">อิดฆออม</span><span class="tj-rule">Idghaam</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#9400A8"></span>
+<div class="tj-info"><span class="tj-name">อิดฆอーム กุนูน</span><span class="tj-rule">Idghaam Ghunnah</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#58B800"></span>
+<div class="tj-info"><span class="tj-name">ลาม ค็อฟีย์</span><span class="tj-rule">Lam Shamsiyyah (Khafee)</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#26BFFD"></span>
+<div class="tj-info"><span class="tj-name">บา</span><span class="tj-rule">Baa</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#169777"></span>
+<div class="tj-info"><span class="tj-nameฮา</span><span class="tj-rule">Haa</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#169200"></span>
+<div class="tj-info"><span class="tj-name">นูน</span><span class="tj-rule">Noon</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#AAA"></span>
+<div class="tj-info"><span class="tj-name">ฮัมซะฮ์ วัซล์ / ลาม ชัมสียะฮ์ / เงียบ</span><span class="tj-rule">Hamza Wasl / Lam Shamsiyyah / Silent</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#A1A1A1"></span>
+<div class="tj-info"><span class="tj-name">ตอ / รอ</span><span class="tj-rule">Taa / Raa</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#FF7E1E"></span>
+<div class="tj-info"><span class="tj-name">วากัฟ (หยุด)</span><span class="tj-rule">Waqf (Pause)</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-save" onclick="closeTajweedInfo()">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- Maqasid Info Modal -->
+<div class="modal-overlay" id="maqasidModal" onclick="closeMaqasidInfo(event)">
+<div class="modal-box maqasid-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<h2>Maqasid Al-Quran คืออะไร?</h2>
+<button class="modal-close" onclick="closeMaqasidInfo()">✕</button>
+</div>
+<div class="modal-body maqasid-body">
+<div class="mqi-section">
+<div class="mqi-desc"><strong>Maqasid Al-Quran</strong> (مقاصد القرآن) หมายถึง "วัตถุประสงค์ของอัลกุรอาน" เป็นการศึกษาเชิงลึกว่าแต่ละซูเราะห์มีวัตถุประสงค์และเป้าหมายหลักในการสื่อสารอะไรบ้าง</div>
+</div>
+<div class="mqi-section">
+<h3>สิ่งที่แสดงในแผง Maqasid</h3>
+<div class="mqi-features">
+<div class="mqi-feature">
+<div class="mqi-feat-label">ข้อมูลซูเราะห์</div>
+<div class="mqi-feat-desc">แสดงชื่อซูเราะห์ (อาหรับ + อังกฤษ), ประเภทการประทาน (มักกียะฮฺ / มะดะนียะฮฺ), และจำนวนอายะห์</div>
+</div>
+<div class="mqi-feature">
+<div class="mqi-feat-label">หัวข้อตามกลุ่มอายะห์</div>
+<div class="mqi-feat-desc">แบ่งอายะห์เป็นกลุ่มตามหัวข้อเนื้อหา เช่น "ผู้ศรัทธาที่ยำเกรง", "การลงโทษ", "เรื่องเล่าของนบี" ฯลฯ ช่วยให้เห็นภาพรวมของเนื้อหาในแต่ละช่วง</div>
+</div>
+<div class="mqi-feature">
+<div class="mqi-feat-label">เนื้อหาโดยรวม</div>
+<div class="mqi-feat-desc">คำอธิบายสรุปเนื้อหาและความสำคัญของซูเราะห์นั้นๆ</div>
+</div>
+</div>
+</div>
+<div class="mqi-section">
+<h3>วิธีใช้</h3>
+<div class="mqi-howto">
+<div class="mqi-step"><span class="mqi-step-num">1</span>เลือกซูเราะห์จาก dropdown ด้านบนในแผงขวา (หรือเลือกจากแผงซ้ายจะเชื่อมกันโดยอัตโนมัติ)</div>
+<div class="mqi-step"><span class="mqi-step-num">2</span>ดูหัวข้อและเนื้อหาที่แสดงด้านล่าง dropdown</div>
+<div class="mqi-step"><span class="mqi-step-num">3</span>สามารถซ่อน/แสดงแผงนี้ได้จากปุ่ม toggle "Maqasid" ด้านบน</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-save" onclick="closeMaqasidInfo()">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- About Modal -->
+<div class="modal-overlay" id="aboutModal" onclick="closeAbout(event)">
+<div class="modal-box about-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<h2>เกี่ยวกับ TTM</h2>
+<button class="modal-close" onclick="closeAbout()">✕</button>
+</div>
+<div class="modal-body about-body">
+<div class="about-section">
+<div class="about-app-name">TTM<sup>&copy;</sup></div>
+<div class="about-subtitle">Thai Tadabbur with Mukhtasar</div>
+<div class="about-subtitle">by Tech for Ummah</div>
+<div class="about-desc">เครื่องมือสำหรับอ่านและศึกษาอัลกุรอานพร้อมคำแปลไทย (Mukhtasar) ข้อความตัจญ์วีดสีสัน และข้อมูล maqasid (วัตถุประสงค์ของแต่ละซูเราะห์)</div>
+</div>
+<div class="about-section">
+<h3>คุณสมบัติ</h3>
+<ul class="about-features">
+<li><strong>รูปแบบข้อความอัลกุรอาน</strong> — Tajweed (ออนไลน์), Uthmani (ออฟไลน์), Quran.com</li>
+<li><strong>คำแปลไทย (Mukhtasar)</strong> — คำแปลและคำอธิบายสั้นๆ ของทุกอายะห์ โดย Abu Hamza Al-Farsi</li>
+<li><strong>แผง Maqasid</strong> — หัวข้อตามกลุ่มอายะห์และเนื้อหาโดยรวมของแต่ละซูเราะห์</li>
+<li><strong>บุ๊คมาร์ค</strong> — บันทึกตำแหน่งการอ่านอัตโนมัติ (ซูเราะห์, อายะห์, รูปแบบข้อความ, ขนาดฟอนต์)</li>
+<li><strong>ปรับขนาดฟอนต์</strong> — ปุ่มลัดและ slider สำหรับปรับขนาดฟอนต์อาหรับและคำแปล</li>
+<li><strong>เลย์เอาต์แบบแบ่งจอ</strong> — ซ้ายแสดงอายะห์พร้อมคำแปล ขวาแสดงข้อมูล Maqasid</li>
+<li><strong>รองรับมือถือ</strong> — แสดงผลได้ดีบนหน้าจอทุกขนาด</li>
+</ul>
+</div>
+<div class="about-section">
+<h3>แหล่งข้อมูล</h3>
+<ul class="about-credits">
+<li>คำแปลไทย: Abu Hamza Al-Farsi (Mukhtasar)</li>
+<li>ข้อความ Uthmani: <a href="https://tanzil.net" target="_blank" rel="noopener">tanzil.net</a></li>
+<li>ข้อความ Tajweed: <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a></li>
+<li>ข้อมูล Maqasid: <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a></li>
+</ul>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-save" onclick="closeAbout()">ปิด</button>
 </div>
 </div>
 </div>

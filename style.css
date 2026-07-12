@@ -36,6 +36,37 @@ letter-spacing: 0.5px;
 flex-shrink: 0;
 }
 
+.header-inner h1.about-btn {
+cursor: pointer;
+transition: opacity 0.15s;
+}
+
+.header-inner h1.about-btn:hover {
+opacity: 0.7;
+}
+
+.info-icon {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 16px;
+height: 16px;
+border-radius: 50%;
+background: rgba(255,255,255,0.25);
+color: #fff;
+font-size: 0.65rem;
+font-style: normal;
+font-weight: 700;
+cursor: pointer;
+transition: background 0.15s;
+margin-left: 2px;
+vertical-align: middle;
+line-height: 1;
+}
+.info-icon:hover {
+background: rgba(255,255,255,0.45);
+}
+
 .header-surah-select {
 display: flex;
 align-items: center;
@@ -160,6 +191,12 @@ font-size: 0.85rem;
 user-select: none;
 }
 
+.toggle-group {
+display: flex;
+align-items: center;
+gap: 2px;
+}
+
 .toggle-label input[type="checkbox"] {
 width: 16px;
 height: 16px;
@@ -225,6 +262,9 @@ background: #fff;
 border-radius: 14px;
 width: 100%;
 max-width: 420px;
+max-height: 85vh;
+display: flex;
+flex-direction: column;
 box-shadow: 0 20px 60px rgba(0,0,0,0.3);
 overflow: hidden;
 }
@@ -255,7 +295,15 @@ padding: 20px;
 display: flex;
 flex-direction: column;
 gap: 16px;
+overflow-y: auto;
+flex: 1;
+min-height: 0;
 }
+
+.modal-body::-webkit-scrollbar { width: 5px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+.modal-body::-webkit-scrollbar-thumb:hover { background: #aaa; }
 
 .form-group {
 display: flex;
@@ -315,68 +363,205 @@ transition: background 0.15s;
 .btn-save { background: #2d6a4f; color: #fff; }
 .btn-save:hover { background: #1b4332; }
 
-/* Text Mode Radio Group */
-.text-mode-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* About Modal */
+.about-box { max-width: 480px; }
+.about-body { gap: 20px; }
+.about-section h3 {
+font-size: 0.82rem;
+font-weight: 600;
+color: #2d6a4f;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 6px;
+}
+.about-app-name {
+font-size: 1.6rem;
+font-weight: 700;
+color: #1b4332;
+text-align: center;
+}
+.about-subtitle {
+font-size: 0.88rem;
+color: #555;
+text-align: center;
+margin-top: 2px;
+}
+.about-desc {
+font-size: 0.85rem;
+color: #444;
+line-height: 1.6;
+text-align: center;
+margin-top: 10px;
+}
+.about-features {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+.about-features li {
+font-size: 0.83rem;
+color: #444;
+line-height: 1.5;
+padding-left: 16px;
+position: relative;
+}
+.about-features li::before {
+content: "•";
+position: absolute;
+left: 0;
+color: #2d6a4f;
+font-weight: 700;
+}
+.about-credits {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+.about-credits li {
+font-size: 0.82rem;
+color: #666;
+line-height: 1.5;
+}
+.about-credits a {
+color: #2d6a4f;
+text-decoration: none;
+}
+.about-credits a:hover {
+text-decoration: underline;
 }
 
-.text-mode-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* Tajweed Info Modal */
+.tajweed-box { max-width: 480px; }
+.tajweed-body { gap: 16px; }
+.tj-section h3 {
+font-size: 0.82rem;
+font-weight: 600;
+color: #2d6a4f;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 8px;
+}
+.tj-desc {
+font-size: 0.85rem;
+color: #444;
+line-height: 1.6;
+}
+.tj-color-list {
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+.tj-color-item {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 6px 10px;
+background: #f8f6f2;
+border-radius: 8px;
+border: 1px solid #e8e5e0;
+}
+.tj-swatch {
+width: 20px;
+height: 20px;
+border-radius: 4px;
+flex-shrink: 0;
+border: 1px solid rgba(0,0,0,0.1);
+}
+.tj-info {
+display: flex;
+flex-direction: column;
+min-width: 0;
+}
+.tj-name {
+font-size: 0.83rem;
+font-weight: 500;
+color: #1a1a1a;
+}
+.tj-rule {
+font-size: 0.75rem;
+color: #888;
+}
+
+/* Maqasid Info Modal */
+.maqasid-box { max-width: 500px; }
+.maqasid-body { gap: 16px; }
+.mqi-section h3 {
+font-size: 0.82rem;
+font-weight: 600;
+color: #2d6a4f;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 8px;
+}
+.mqi-desc {
+font-size: 0.85rem;
+color: #444;
+line-height: 1.6;
+}
+.mqi-features {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+.mqi-feature {
+padding: 8px 12px;
+background: #f8f6f2;
+border-radius: 8px;
+border: 1px solid #e8e5e0;
+}
+.mqi-feat-label {
+font-size: 0.83rem;
+font-weight: 600;
+color: #1b4332;
+margin-bottom: 2px;
+}
+.mqi-feat-desc {
+font-size: 0.82rem;
+color: #555;
+line-height: 1.5;
+}
+.mqi-howto {
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+.mqi-step {
+display: flex;
+align-items: flex-start;
+gap: 8px;
+font-size: 0.83rem;
+color: #444;
+line-height: 1.5;
+}
+.mqi-step-num {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background: #2d6a4f;
+color: #fff;
+font-size: 0.7rem;
+font-weight: 700;
+flex-shrink: 0;
+margin-top: 1px;
+}
+
+/* Translation Font Size Preview */
+.tfs-preview {
+  background: #f0f7f3;
+  border: 1px solid #d4e4c8;
+  border-radius: 8px;
   padding: 10px 14px;
-  border: 1.5px solid #e0ddd8;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
-  user-select: none;
-  background: #fafaf8;
-}
-
-.text-mode-option:hover {
-  border-color: #b2d8c5;
-  background: #f0f7f3;
-}
-
-.text-mode-option input[type="radio"] {
-  accent-color: #2d6a4f;
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-
-.text-mode-option:has(input:checked) {
-  border-color: #2d6a4f;
-  background: #f0f7f3;
-  box-shadow: 0 0 0 2px rgba(45,106,79,0.12);
-}
-
-.text-mode-icon {
-  font-size: 1.25rem;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.text-mode-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.text-mode-title {
+  text-align: left;
+  font-family: 'Noto Sans Thai', sans-serif;
   font-size: 0.88rem;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-.text-mode-desc {
-  font-size: 0.75rem;
-  color: #888;
-  line-height: 1.3;
+  line-height: 1.6;
+  color: #333;
+  transition: font-size 0.15s;
 }
 
 /* Font Size Control */
