@@ -1,4 +1,4 @@
-# TTM — Thai Tadabbur with Mukhtasar
+# TTMM — Thai Tadabbur with Mukhtasar & Maqasid
 
 A web-based tool for reading and studying the Quran with Thai translation (Mukhtasar), colored tajweed text, English translation, Maqasid information (objectives of each surah), and full Mukhtasar content viewer.
 
