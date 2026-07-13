@@ -43,3 +43,4 @@ A web-based tool for reading and studying the Quran with Thai translation (Mukht
 - Uthmani text: [tanzil.net](https://tanzil.net)
 - Ayah API: [alquran.cloud](https://alquran.cloud)
 - Tajweed guide: [alquran.cloud/tajweed-guide](https://alquran.cloud/tajweed-guide)
+- แผนที่อัลกุรอาน: [genfa.co](https://genfa.co)
