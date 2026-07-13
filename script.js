@@ -10,6 +10,7 @@ const state = {
   currentAyah: null,
   verses: [],
   translations: {},
+  englishTranslations: {},
   maqasidMap: {},
   surahMeta: {},
   textMode: 'tajweed',        // 'tajweed' | 'uthmani' | 'quran.com'
@@ -67,6 +68,7 @@ function getLeftPanelHTML() {
     '.AT{font-family:\"Amiri\",\"Traditional Arabic\",serif;font-size:var(--fs);line-height:2;direction:rtl;text-align:right}' +
     '.TT{font-size:var(--tfs);color:#000;line-height:1.6;margin-top:6px;padding-top:6px;border-top:1px dashed #e0ddd8}' +
     '.TT.x{display:none}' +
+    '.TT.en{color:#555;font-style:italic}' +
     '.h{color:#AAA}.s{color:#AAA}.l{color:#AAA}' +
     '.m{color:#537FFF}.a{color:#537FFF}' +
     '.j{color:#4050FF}.u{color:#4050FF}' +
@@ -95,10 +97,10 @@ function getLeftPanelHTML() {
   '<script>' +
   'function pT(t){return t.replace(/\\[([a-z]+)(?::(\\d+))?\\[([^\\]]*)\\]/g,function(a,b,c,d){return"<span class=\\\""+b+"\\\">"+d+"</span>"})}' +
   'function getThematicBanners(a,m){if(!m||!m.thematic_ayat)return"";var matches=m.thematic_ayat.filter(function(t){var r=t.ayat_range.split("-").map(Number);return r[0]===a;});if(!matches.length)return"";return matches.map(function(t){return"<div class=\\\"AB\\\"><span class=\\\"a1\\\">หัวข้ออายะห์ "+t.ayat_range+"</span><span class=\\\"a3\\\">"+t.theme+"</span></div>";}).join("");}' +
-  'function rd(v,s,m,fs,tfs){var e=document.getElementById("VL");if(fs)document.documentElement.style.setProperty("--fs",fs+"rem");if(tfs)document.documentElement.style.setProperty("--tfs",tfs+"rem");e.innerHTML=v.map(function(a){var h=pT(a.text);var banners=getThematicBanners(a.numberInSurah,m);return banners+"<div class=\\\"V\\\" id=\\\"v"+a.numberInSurah+"\\\"><div class=\\\"VH\\\"><span class=\\\"AN\\\">"+a.numberInSurah+"</span><div class=\\\"VB\\\"><div class=\\\"AT\\\">"+h+"</div>"+(a.translation?"<div class=\\\"TT\\\""+(s?"":" x")+"\\\">"+a.translation+"</div>":"")+"</div></div></div>"}).join("")}' +
+  'function rd(v,s,m,fs,tfs){var e=document.getElementById("VL");if(fs)document.documentElement.style.setProperty("--fs",fs+"rem");if(tfs)document.documentElement.style.setProperty("--tfs",tfs+"rem");e.innerHTML=v.map(function(a){var h=pT(a.text);var banners=getThematicBanners(a.numberInSurah,m);return banners+"<div class=\\\"V\\\" id=\\\"v"+a.numberInSurah+"\\\"><div class=\\\"VH\\\"><span class=\\\"AN\\\">"+a.numberInSurah+"</span><div class=\\\"VB\\\"><div class=\\\"AT\\\">"+h+"</div>"+(a.translation?"<div class=\\\"TT th"+(s?"":" x")+"\\\">"+a.translation+"</div>":"")+(a.englishTranslation?"<div class=\\\"TT en"+(s?" x":"")+"\\\">"+a.englishTranslation+"</div>":"")+"</div></div></div>"}).join("")}' +
   'function sc(n){var t=document.getElementById("v"+n);if(t)t.scrollIntoView({block:"start",behavior:"smooth"})}' +
   'function sw(i){document.querySelectorAll("#C>.on").forEach(function(e){e.classList.remove("on")});var e=document.getElementById(i);if(e)e.classList.add("on")}' +
-  'window.addEventListener("message",function(e){var d=e.data;if(d.type==="render"){sw("VL");rd(d.verses,d.showTranslation,d.maqasid,d.arabicFontSize,d.translationFontSize);if(d.targetAyah)setTimeout(function(){sc(d.targetAyah)},80)}else if(d.type==="setFontSize"){document.documentElement.style.setProperty("--fs",d.size+"rem")}else if(d.type==="setTranslationFontSize"){document.documentElement.style.setProperty("--tfs",d.size+"rem")}else if(d.type==="toggleTranslation"){document.querySelectorAll(".TT").forEach(function(e){e.classList.toggle("x",!d.show)})}else if(d.type==="toggleTajweed"){document.body.classList.toggle("Y",!d.enabled)}else if(d.type==="showLoading"){sw("L")}else if(d.type==="showPlaceholder"){sw("P")}else if(d.type==="showError"){document.getElementById("eD").textContent=d.msg;sw("E")}});' +
+  'window.addEventListener("message",function(e){var d=e.data;if(d.type==="render"){sw("VL");rd(d.verses,d.showTranslation,d.maqasid,d.arabicFontSize,d.translationFontSize);if(d.targetAyah)setTimeout(function(){sc(d.targetAyah)},80)}else if(d.type==="setFontSize"){document.documentElement.style.setProperty("--fs",d.size+"rem")}else if(d.type==="setTranslationFontSize"){document.documentElement.style.setProperty("--tfs",d.size+"rem")}else if(d.type==="toggleTranslation"){document.querySelectorAll(".TT.th").forEach(function(e){e.classList.toggle("x",!d.show)});document.querySelectorAll(".TT.en").forEach(function(e){e.classList.toggle("x",d.show)})}else if(d.type==="toggleTajweed"){document.body.classList.toggle("Y",!d.enabled)}else if(d.type==="showLoading"){sw("L")}else if(d.type==="showPlaceholder"){sw("P")}else if(d.type==="showError"){document.getElementById("eD").textContent=d.msg;sw("E")}});' +
   'window.parent.postMessage({type:"leftReady"},"*")' +
   '</script></body></html>';
 }
@@ -187,11 +189,13 @@ async function init() {
   if (savedBm && savedBm.textMode) state.textMode = savedBm.textMode;
   if (savedBm && savedBm.arabicFontSize) state.arabicFontSize = savedBm.arabicFontSize;
   try {
-    const [translationData] = await Promise.all([
+    const [translationData, englishTranslationData] = await Promise.all([
       loadTranslation(),
+      loadEnglishTranslation(),
       loadSurahs()
     ]);
     state.translations = translationData || {};
+    state.englishTranslations = englishTranslationData || {};
     processMaqasidData();
     renderSurahList();
     sendToRight({ type: 'initSurahs', surahs: state.surahs });
@@ -220,6 +224,10 @@ async function loadTranslation() {
   return window.QURAN_TRANSLATION_DATA || {};
 }
 
+async function loadEnglishTranslation() {
+  return window.QURAN_ENGLISH_TRANSLATION_DATA || {};
+}
+
 let currentRetrySurah = null;
 function retryLoad() {
   if (currentRetrySurah) selectSurah(currentRetrySurah, true);
@@ -234,6 +242,19 @@ function getTranslation(surah, ayah) {
     visited.add(entry);
     key = entry;
     entry = state.translations[key];
+  }
+  return entry ? entry.text : null;
+}
+
+function getEnglishTranslation(surah, ayah) {
+  let key = `${surah}:${ayah}`;
+  let entry = state.englishTranslations[key];
+  const visited = new Set();
+  while (typeof entry === 'string') {
+    if (visited.has(entry)) break;
+    visited.add(entry);
+    key = entry;
+    entry = state.englishTranslations[key];
   }
   return entry ? entry.text : null;
 }
@@ -350,6 +371,15 @@ function closeAbout(e) {
   $('aboutModal').style.display = 'none';
 }
 
+function openMukhtasarInfo() {
+  $('mukhtasarModal').style.display = 'flex';
+}
+
+function closeMukhtasarInfo(e) {
+  if (e && e.target !== $('mukhtasarModal') && e.target.closest('.modal-box')) return;
+  $('mukhtasarModal').style.display = 'none';
+}
+
 function openTajweedInfo() {
   $('tajweedModal').style.display = 'flex';
 }
@@ -452,16 +482,6 @@ function renderSurahList() {
     `).join('');
 }
 
-function updateSurahStickyBar(surah) {
-  const el = $('headerSurahInfo');
-  if (!surah) { el.innerHTML = ''; return; }
-  const maqasid = getMaqasid(String(surah.number));
-  const reveal = maqasid ? maqasid.reveal : (surah.revelationType === 'Meccan' ? 'มักกิยยะฮฺ' : 'มะดะนิยยะฮฺ');
-  el.innerHTML = `
-    <span class="hsi-info">${surah.englishName} · ${surah.numberOfAyahs} อายะห์ · ${reveal}</span>
-  `;
-}
-
 // ── Select Surah ──
 
 function loadVersesTajweed(surahNumber) {
@@ -490,7 +510,6 @@ function selectSurah(surahNumber, retry) {
 
   state.currentSurah = surahNumber;
   renderSurahList();
-  updateSurahStickyBar(surah);
 
   // Update right panel (maqasid)
   const maqasid = getMaqasid(String(surahNumber));
@@ -531,7 +550,8 @@ function selectSurah(surahNumber, retry) {
       const versesWithTrans = ayahs.map(v => ({
         numberInSurah: v.numberInSurah,
         text: v.text,
-        translation: getTranslation(surahNumber, v.numberInSurah)
+        translation: getTranslation(surahNumber, v.numberInSurah),
+        englishTranslation: getEnglishTranslation(surahNumber, v.numberInSurah)
       }));
 
       sendToLeft({

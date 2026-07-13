@@ -18,14 +18,16 @@
 <select class="surah-dropdown" id="surahDropdown" onchange="selectSurah(+this.value)">
 <option value="">— เลือกซูเราะห์ —</option>
 </select>
-<div class="header-surah-info" id="headerSurahInfo"></div>
 </div>
 <div class="bm-header" id="bmHeader"></div>
 <div class="header-controls">
+<div class="toggle-group">
 <label class="toggle-label">
 <input type="checkbox" id="toggleTranslation" checked>
 <span class="toggle-text">คำแปล</span>
 </label>
+<span class="info-icon" onclick="openMukhtasarInfo()" title="เรียนรู้เกี่ยวกับคำแปล Mukhtasar">ℹ</span>
+</div>
 <div class="toggle-group">
 <label class="toggle-label">
 <input type="checkbox" id="toggleTajweed" checked>
@@ -133,65 +135,66 @@
 <div class="modal-body tajweed-body">
 <div class="tj-section">
 <div class="tj-desc">ตัจญ์วีด (Tajweed) คือกฎระเบียบในการออกเสียงอัลกุรอานอย่างถูกต้อง สีแต่ละสีบ่งบอกถึงกฎการออกเสียงที่แตกต่างกัน ช่วยให้ผู้อ่านทราบว่าควรออกเสียงอย่างไรในแต่ละตำแหน่ง</div>
+<div class="tj-desc" style="margin-top:8px;font-size:0.78rem;color:#888;">อ้างอิงข้อมูลจาก <a href="https://alquran.cloud/tajweed-guide" target="_blank" rel="noopener" style="color:#2d6a4f;">alquran.cloud/tajweed-guide</a></div>
 </div>
 <div class="tj-section">
 <h3>รายการสีและกฎตัจญ์วีด</h3>
 <div class="tj-color-list">
 <div class="tj-color-item">
+<span class="tj-swatch" style="background:#AAAAAA"></span>
+<div class="tj-info"><span class="tj-name">ฮัมซะตุลวัซล์ / ตัวอักษรเงียบ / ลามชัมซียะห์</span><span class="tj-rule">Hamzat ul Wasl / Silent / Laam Shamsiyyah</span></div>
+</div>
+<div class="tj-color-item">
 <span class="tj-swatch" style="background:#537FFF"></span>
-<div class="tj-info"><span class="tj-name">มีม ชั้ดดะฮ์ / อะลิฟ คันญะรียะฮ์</span><span class="tj-rule">Meem Shaddah / Alif Khanjariyyah</span></div>
+<div class="tj-info"><span class="tj-name">มัดดะ Normal (ยืด 2 เสียง)</span><span class="tj-rule">Madda Normal — مد عادي</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#4050FF"></span>
-<div class="tj-info"><span class="tj-name">จิม / กัลกาะลอฮ์</span><span class="tj-rule">Jim / Qalqalah</span></div>
+<div class="tj-info"><span class="tj-name">มัดดะที่ยืดได้ (ยืด 2, 4 หรือ 6 เสียง)</span><span class="tj-rule">Madda Permissible — مد جائز</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#000EBC"></span>
-<div class="tj-info"><span class="tj-name">วาว</span><span class="tj-rule">Waw</span></div>
+<div class="tj-info"><span class="tj-name">มัดดะ Necessary (ยืด 6 เสียง)</span><span class="tj-rule">Madda Necessary — مد واجب</span></div>
+</div>
+<div class="tj-color-item">
+<span class="tj-swatch" style="background:#DD0008"></span>
+<div class="tj-info"><span class="tj-name">เกาะลเกาะละฮ์ (สะท้อนเสียง)</span><span class="tj-rule">Qalaqah — قلقلة</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#2144C1"></span>
-<div class="tj-info"><span class="tj-name">กุนูน / กอ Nose</span><span class="tj-rule">Ghunnah</span></div>
-</div>
-<div class="tj-color-item">
-<span class="tj-swatch" style="background:#D00"></span>
-<div class="tj-info"><span class="tj-name">กัลกาะลอฮ์ กุบรอ</span><span class="tj-rule">Qalqalah Kubra</span></div>
+<div class="tj-info"><span class="tj-name">มัดดะ Obligatory (ยืด 4-5 เสียง)</span><span class="tj-rule">Madda Obligatory — مد لازم</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#D500B7"></span>
-<div class="tj-info"><span class="tj-name">อิดฆออม</span><span class="tj-rule">Idghaam</span></div>
+<div class="tj-info"><span class="tj-name">อิกฟาอ์ ชะฟะวี (ซ่อนเสียงด้วยริมฝีปาก)</span><span class="tj-rule">Ikhafa Shafawi — إخفاء شفوي</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#9400A8"></span>
-<div class="tj-info"><span class="tj-name">อิดฆอーム กุนูน</span><span class="tj-rule">Idghaam Ghunnah</span></div>
+<div class="tj-info"><span class="tj-name">อิกฟาอ์ (ซ่อนเสียง)</span><span class="tj-rule">Ikhafa — إخفاء</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#58B800"></span>
-<div class="tj-info"><span class="tj-name">ลาม ค็อฟีย์</span><span class="tj-rule">Lam Shamsiyyah (Khafee)</span></div>
+<div class="tj-info"><span class="tj-name">อิดฆอม ชะฟะวี (กลมกลืนกับมีม)</span><span class="tj-rule">Idgham Shafawi — إدغام شفوي</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#26BFFD"></span>
-<div class="tj-info"><span class="tj-name">บา</span><span class="tj-rule">Baa</span></div>
+<div class="tj-info"><span class="tj-name">อิกอับ (เปลี่ยนนูน/ตันวีนเป็นมีม)</span><span class="tj-rule">Iqlab — إقلاب</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#169777"></span>
-<div class="tj-info"><span class="tj-nameฮา</span><span class="tj-rule">Haa</span></div>
+<div class="tj-info"><span class="tj-name">อิดฆอมพร้อมกุนนะฮ์ (กลมกลืนพร้อมเสียงจมูก)</span><span class="tj-rule">Idgham With Ghunnah — إدغام بغنة</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#169200"></span>
-<div class="tj-info"><span class="tj-name">นูน</span><span class="tj-rule">Noon</span></div>
-</div>
-<div class="tj-color-item">
-<span class="tj-swatch" style="background:#AAA"></span>
-<div class="tj-info"><span class="tj-name">ฮัมซะฮ์ วัซล์ / ลาม ชัมสียะฮ์ / เงียบ</span><span class="tj-rule">Hamza Wasl / Lam Shamsiyyah / Silent</span></div>
+<div class="tj-info"><span class="tj-name">อิดฆอมไม่มีกุนนะฮ์ (กลมกลืนไม่มีเสียงจมูก)</span><span class="tj-rule">Idgham Without Ghunnah — إدغام بلا غنة</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#A1A1A1"></span>
-<div class="tj-info"><span class="tj-name">ตอ / รอ</span><span class="tj-rule">Taa / Raa</span></div>
+<div class="tj-info"><span class="tj-name">อิดฆอม มุตะญานิซัยน / มุตะกอริบัยน</span><span class="tj-rule">Idgham Mutajanisayn / Mutaqaribayn</span></div>
 </div>
 <div class="tj-color-item">
 <span class="tj-swatch" style="background:#FF7E1E"></span>
-<div class="tj-info"><span class="tj-name">วากัฟ (หยุด)</span><span class="tj-rule">Waqf (Pause)</span></div>
+<div class="tj-info"><span class="tj-name">กุนนะฮ์ (เสียงสะท้อนจมูก 2 เสียง)</span><span class="tj-rule">Ghunnah — غنة</span></div>
 </div>
 </div>
 </div>
@@ -245,6 +248,49 @@
 </div>
 </div>
 
+<!-- Mukhtasar Info Modal -->
+<div class="modal-overlay" id="mukhtasarModal" onclick="closeMukhtasarInfo(event)">
+<div class="modal-box mukhtasar-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<h2>คำแปล Mukhtasar คืออะไร?</h2>
+<button class="modal-close" onclick="closeMukhtasarInfo()">✕</button>
+</div>
+<div class="modal-body mukhtasar-body">
+<div class="mkt-section">
+<div class="mkt-desc"><strong>Mukhtasar</strong> (المختصر) คือคำแปลและคำอธิบายสั้นๆ ของอัลกุรอาน โดย <strong>Abu Hamza Al-Farsi</strong> ซึ่งเป็นคำแปลที่กระชับ เข้าใจง่าย ครอบคลุมความหมายหลักของแต่ละอายะห์</div>
+</div>
+<div class="mkt-section">
+<h3>จุดเด่นของ Mukhtasar</h3>
+<div class="mkt-features">
+<div class="mkt-feature">
+<div class="mkt-feat-label">กระชับ ได้ใจความ</div>
+<div class="mkt-feat-desc">อธิบายความหมายของอายะห์โดยสรุป ไม่ยืดเยื้อ เหมาะสำหรับการอ่านศึษาความหมายโดยรวม</div>
+</div>
+<div class="mkt-feature">
+<div class="mkt-feat-label">ภาษาไทยที่เข้าใจง่าย</div>
+<div class="mkt-feat-desc">ใช้ภาษาไทยที่สื่อสารได้ตรงตามความหมายดั้งเดิมของอัลกุรอาน</div>
+</div>
+<div class="mkt-feature">
+<div class="mkt-feat-label">เชื่อมโยงกับ Tajweed</div>
+<div class="mkt-feat-desc">ทำงานร่วมกับการแสดงสี Tajweed เพื่อช่วยในการอ่านออกเสียงที่ถูกต้องไปพร้อมกับการเข้าใจความหมาย</div>
+</div>
+</div>
+</div>
+<div class="mkt-section">
+<h3>การใช้งาน</h3>
+<div class="mkt-howto">
+<div class="mkt-step"><span class="mkt-step-num">1</span>เปิด "คำแปล" เพื่อแสดงคำแปลไทย Mukhtasar ใต้ข้อความอายะห์</div>
+<div class="mkt-step"><span class="mkt-step-num">2</span>ปิด "คำแปล" เพื่อซ่อนคำแปลไทย และแสดงคำแปลภาษาอังกฤษแทน</div>
+<div class="mkt-step"><span class="mkt-step-num">3</span>ปรับขนาดฟอนต์คำแปลได้ที่เมนู "ตั้งค่า" → "ขนาด Font คำแปล"</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-save" onclick="closeMukhtasarInfo()">ปิด</button>
+</div>
+</div>
+</div>
+
 <!-- About Modal -->
 <div class="modal-overlay" id="aboutModal" onclick="closeAbout(event)">
 <div class="modal-box about-box" onclick="event.stopPropagation()">
@@ -254,16 +300,18 @@
 </div>
 <div class="modal-body about-body">
 <div class="about-section">
-<div class="about-app-name">TTM<sup>&copy;</sup></div>
-<div class="about-subtitle">Thai Tadabbur with Mukhtasar</div>
-<div class="about-subtitle">by Tech for Ummah</div>
-<div class="about-desc">เครื่องมือสำหรับอ่านและศึกษาอัลกุรอานพร้อมคำแปลไทย (Mukhtasar) ข้อความตัจญ์วีดสีสัน และข้อมูล maqasid (วัตถุประสงค์ของแต่ละซูเราะห์)</div>
+<div class="about-app-name"><font color="darkgreen">TTM<sup>&copy;</sup></font></div>
+<div class="about-subtitle"><font color="darkgreen">Thai Tadabbur with Mukhtasar</font></div>
+<div class="about-subtitle"><font color="darkgreen">by Tech for Ummah</font></div>
+<div class="about-desc">เครื่องมือสำหรับอ่านเพื่อศึกษาอัลกุรอานพร้อมคำแปลและอถาธิบาย(Mukhtasar) มีตัจญ์วีด และข้อมูลเป้าประสงค์ของซูเราะห์หรือกลุ่มอายะฮ์(maqasid)</div>
 </div>
+
+
 <div class="about-section">
 <h3>คุณสมบัติ</h3>
 <ul class="about-features">
 <li><strong>รูปแบบข้อความอัลกุรอาน</strong> — Tajweed (ออนไลน์), Uthmani (ออฟไลน์), Quran.com</li>
-<li><strong>คำแปลไทย (Mukhtasar)</strong> — คำแปลและคำอธิบายสั้นๆ ของทุกอายะห์ โดย Abu Hamza Al-Farsi</li>
+<li><strong>คำแปลไทย (Mukhtasar)</strong> — คำแปลและคำอถาธิบาย(Tafsir)สั้นๆ ของทุกอายะห์ โดย Abu Hamza Al-Farsi</li>
 <li><strong>แผง Maqasid</strong> — หัวข้อตามกลุ่มอายะห์และเนื้อหาโดยรวมของแต่ละซูเราะห์</li>
 <li><strong>บุ๊คมาร์ค</strong> — บันทึกตำแหน่งการอ่านอัตโนมัติ (ซูเราะห์, อายะห์, รูปแบบข้อความ, ขนาดฟอนต์)</li>
 <li><strong>ปรับขนาดฟอนต์</strong> — ปุ่มลัดและ slider สำหรับปรับขนาดฟอนต์อาหรับและคำแปล</li>
@@ -271,15 +319,29 @@
 <li><strong>รองรับมือถือ</strong> — แสดงผลได้ดีบนหน้าจอทุกขนาด</li>
 </ul>
 </div>
+
 <div class="about-section">
 <h3>แหล่งข้อมูล</h3>
 <ul class="about-credits">
 <li>คำแปลไทย: Abu Hamza Al-Farsi (Mukhtasar)</li>
 <li>ข้อความ Uthmani: <a href="https://tanzil.net" target="_blank" rel="noopener">tanzil.net</a></li>
 <li>ข้อความ Tajweed: <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a></li>
-<li>ข้อมูล Maqasid: <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a></li>
+<li>ข้อมูล Maqasid: <a href="https://genfa.co" target="_blank" rel="noopener">หนังสือแผนที่อัลกุรอาน</a></li>
 </ul>
 </div>
+
+<div class="about-section">
+<h3>หลักฐานวิธีการอ่านกุรอาน</h3>
+<ul class="about-credits">
+<li>-อัลกุรอานประทานมาเพื่อให้พิจารณาอายะฮ์ต่างๆ(Tadabbur) <a href="https://quran.com/28/39" target="_blank" rel="noopener">[อัลกุรอาน 28:39]</a></li>
+<li>-จงอ่านอัลกุรอานอย่างถูกต้อง ด้วยจังหวะที่เหมาะสม(Tajweed) <a href="https://quran.com/73/4" target="_blank" rel="noopener">[อัลกุรอาน 73:4]</a></li>
+<li>-อ่านอัลกุรอานหนึ่งพยัญชนะเท่ากับสิบผลบุญ <a href="https://sunnah.com/tirmidhi:2910" target="_blank" rel="noopener">(ฮาดีส Tirmidhi:2910)</a></li>
+
+</ul>
+</div>
+
+
+
 </div>
 <div class="modal-footer">
 <button class="btn-save" onclick="closeAbout()">ปิด</button>
@@ -289,6 +351,7 @@
 
 <script src="maqasid_data.js"></script>
 <script src="thai-mukhtasar.js"></script>
+<script src="english-mukhtasar.js"></script>
 <script src="quran_uthmani_data.js"></script>
 <script src="script.js"></script>
 </body>
