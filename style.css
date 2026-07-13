@@ -34,7 +34,11 @@ font-size: 1.25rem;
 font-weight: 500;
 letter-spacing: 0.5px;
 flex-shrink: 0;
+display: flex;
+align-items: center;
+gap: 0;
 }
+.logo-icon { font-size: 1.5rem; line-height: 1; }
 
 .header-inner h1.about-btn {
 cursor: pointer;
@@ -192,7 +196,8 @@ accent-color: #95d5b2;
 cursor: pointer;
 }
 
-.bm-setup-btn {
+.mukhtasar-btn {
+  display: none;
   background: none;
   border: 1px solid rgba(255,255,255,0.4);
   border-radius: 6px;
@@ -201,6 +206,21 @@ cursor: pointer;
   font-size: 0.85rem;
   color: #fff;
   line-height: 1;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.mukhtasar-btn:hover { background: rgba(255,255,255,0.15); }
+
+.bm-setup-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #fff;
+  line-height: 1;
+  font-weight: 500;
   transition: background 0.15s;
 }
 .bm-setup-btn:hover { background: rgba(255,255,255,0.15); }
@@ -602,6 +622,49 @@ font-size: 0.7rem;
 font-weight: 700;
 flex-shrink: 0;
 margin-top: 1px;
+}
+
+/* Mukhtasar Content Modal */
+.mukhtasar-content-box { max-width: 640px; }
+.mukhtasar-content-body { gap: 0; padding: 0; }
+.mukhtasar-content-text {
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: #1a1a1a;
+  overflow-y: auto;
+  max-height: 60vh;
+  word-wrap: break-word;
+}
+.mukhtasar-content-text::-webkit-scrollbar { width: 6px; }
+.mukhtasar-content-text::-webkit-scrollbar-track { background: transparent; }
+.mukhtasar-content-text::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+.mukhtasar-content-text::-webkit-scrollbar-thumb:hover { background: #aaa; }
+.mkt-content-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e8e5e0;
+}
+.mkt-content-item:last-child { border-bottom: none; }
+.mkt-content-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2d6a4f;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 5px;
+}
+.mkt-content-txt {
+  flex: 1;
+  min-width: 0;
+  padding-top: 4px;
 }
 
 /* Translation Font Size Preview */

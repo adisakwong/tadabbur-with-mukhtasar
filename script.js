@@ -199,6 +199,7 @@ async function init() {
     processMaqasidData();
     renderSurahList();
     sendToRight({ type: 'initSurahs', surahs: state.surahs });
+    updateMukhtasarBtnVisibility();
     restoreBookmark();
   } catch (e) {
     console.error('Init error:', e);
@@ -292,7 +293,6 @@ function updateBookmarkDisplay(bm) {
   const d = new Date(bm.timestamp);
   const timeStr = d.toLocaleString('th-TH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
   el.innerHTML = `
-  <span class="bm-icon">📖</span>
   <span class="bm-text">${bm.surahName} (${bm.surah}) : ${bm.ayah}</span>
   <span class="bm-time">${timeStr}</span>
   `;
@@ -371,6 +371,54 @@ function closeAbout(e) {
   $('aboutModal').style.display = 'none';
 }
 
+function updateMukhtasarBtnVisibility() {
+  const isQuranCom = state.textMode === 'quran.com';
+  const btn = document.querySelector('.mukhtasar-btn');
+  if (btn) btn.style.display = isQuranCom ? 'inline-block' : 'none';
+  const translateGroup = $('translationToggleGroup');
+  const tajweedGroup = document.querySelectorAll('.header-controls .toggle-group')[1];
+  if (translateGroup) translateGroup.style.display = isQuranCom ? 'none' : '';
+  if (tajweedGroup) tajweedGroup.style.display = isQuranCom ? 'none' : '';
+}
+
+function openMukhtasarContentFromBookmark() {
+  const bm = loadBookmark();
+  if (bm && bm.surah && bm.ayah) {
+    openMukhtasarContent(bm.surah, bm.ayah);
+  } else if (state.currentSurah) {
+    openMukhtasarContent(state.currentSurah, state.currentAyah || 1);
+  } else {
+    alert('กรุณาเลือกซูเราะห์ก่อน');
+  }
+}
+
+function openMukhtasarContent(surah, ayah) {
+  const s = state.surahs.find(x => x.number === surah);
+  const surahName = s ? s.englishName : `Surah ${surah}`;
+  const maxAyah = s ? s.numberOfAyahs : ayah;
+  $('mukhtasarContentTitle').textContent = `คำแปล Mukhtasar — ${surahName} (${surah}) : ${ayah} - ${maxAyah}`;
+  let html = '';
+  for (let a = ayah; a <= maxAyah; a++) {
+    const text = getTranslation(surah, a);
+    if (text) {
+      html += `<div class="mkt-content-item"><span class="mkt-content-num">${a}</span><span class="mkt-content-txt">${escapeHtml(text)}</span></div>`;
+    }
+  }
+  $('mukhtasarContentText').innerHTML = html || '<div style="padding:20px;color:#999;text-align:center;">ไม่พบข้อมูลคำแปลสำหรับอายะห์นี้</div>';
+  $('mukhtasarContentModal').style.display = 'flex';
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function closeMukhtasarContent(e) {
+  if (e && e.target !== $('mukhtasarContentModal') && e.target.closest('.modal-box')) return;
+  $('mukhtasarContentModal').style.display = 'none';
+}
+
 function openMukhtasarInfo() {
   $('mukhtasarModal').style.display = 'flex';
 }
@@ -419,6 +467,7 @@ function submitBookmarkForm() {
   state.textMode = textMode;
   state.arabicFontSize = fontSize;
   state.translationFontSize = translationFontSize;
+  updateMukhtasarBtnVisibility();
   saveBookmark(surah, ayah, textMode, fontSize, translationFontSize);
   // push font size to left panel immediately
   sendToLeft({ type: 'setFontSize', size: fontSize });

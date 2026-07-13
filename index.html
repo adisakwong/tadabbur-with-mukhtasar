@@ -13,21 +13,22 @@
 <body>
 <header>
 <div class="header-inner">
-<h1 onclick="openAbout()" class="about-btn">TTM<sup>&copy;</sup></h1>
+<h1 onclick="openAbout()" class="about-btn"><span class="logo-icon">📖</span>TTM<sup>&copy;</sup></h1>
 <div class="header-surah-select">
 <select class="surah-dropdown" id="surahDropdown" onchange="selectSurah(+this.value)">
 <option value="">— เลือกซูเราะห์ —</option>
 </select>
 </div>
 <div class="bm-header" id="bmHeader"></div>
+<button class="mukhtasar-btn" onclick="openMukhtasarContentFromBookmark()" title="ดูเนื้อหาคำแปล Mukhtasar">Mukhtasar</button>
 <div class="header-controls">
-<div class="toggle-group">
+<div class="toggle-group" id="translationToggleGroup">
 <label class="toggle-label">
 <input type="checkbox" id="toggleTranslation" checked>
-<span class="toggle-text">คำแปล</span>
+<span class="toggle-text">คำแปลไทย</span>
 </label>
-<span class="info-icon" onclick="openMukhtasarInfo()" title="เรียนรู้เกี่ยวกับคำแปล Mukhtasar">ℹ</span>
 </div>
+<span class="info-icon" id="mukhtasarInfoIcon" onclick="openMukhtasarInfo()" title="เรียนรู้เกี่ยวกับคำแปล Mukhtasar">ℹ</span>
 <div class="toggle-group">
 <label class="toggle-label">
 <input type="checkbox" id="toggleTajweed" checked>
@@ -287,6 +288,22 @@
 </div>
 <div class="modal-footer">
 <button class="btn-save" onclick="closeMukhtasarInfo()">ปิด</button>
+</div>
+</div>
+</div>
+
+<!-- Mukhtasar Content Modal -->
+<div class="modal-overlay" id="mukhtasarContentModal" onclick="closeMukhtasarContent(event)">
+<div class="modal-box mukhtasar-content-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<h2 id="mukhtasarContentTitle">คำแปล Mukhtasar</h2>
+<button class="modal-close" onclick="closeMukhtasarContent()">✕</button>
+</div>
+<div class="modal-body mukhtasar-content-body">
+<div id="mukhtasarContentText" class="mukhtasar-content-text"></div>
+</div>
+<div class="modal-footer">
+<button class="btn-save" onclick="closeMukhtasarContent()">ปิด</button>
 </div>
 </div>
 </div>
