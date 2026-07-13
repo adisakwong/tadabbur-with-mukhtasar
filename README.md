@@ -39,7 +39,7 @@ A web-based tool for reading and studying the Quran with Thai translation (Mukht
 
 ## Credits
 
-- Thai translation: Abu Hamza Al-Farsi (Mukhtasar)
+- Thai translation(Mukhtasar: [qul.tarteel.ai](https://qul.tarteel.ai)
 - Uthmani text: [tanzil.net](https://tanzil.net)
 - Ayah API: [alquran.cloud](https://alquran.cloud)
 - Tajweed guide: [alquran.cloud/tajweed-guide](https://alquran.cloud/tajweed-guide)
