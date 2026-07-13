@@ -291,7 +291,12 @@ function updateBookmarkDisplay(bm) {
   const el = $('bmHeader');
   if (!bm) { el.innerHTML = ''; return; }
   const d = new Date(bm.timestamp);
-  const timeStr = d.toLocaleString('th-TH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yy = String(d.getFullYear()).slice(-2);
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  const timeStr = `${dd}/${mm}/${yy} ${hh}:${mi}`;
   el.innerHTML = `
   <span class="bm-text">${bm.surahName} (${bm.surah}) : ${bm.ayah}</span>
   <span class="bm-time">${timeStr}</span>
