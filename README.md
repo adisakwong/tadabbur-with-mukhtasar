@@ -1,6 +1,6 @@
 # TTMM — Thai Tadabbur with Mukhtasar & Maqasid
 
-A web-based tool for reading and studying the Quran with Thai translation (Mukhtasar), colored tajweed text, English translation, Maqasid information (objectives of each surah), and full Mukhtasar content viewer.
+A web-based tool for reading and studying the Quran with Thai translation (Mukhtasar), colored tajweed text, English translation, Maqasid information (objectives of each surah), full Mukhtasar content viewer, and Tajweed rules reference.
 
 ## Features
 
@@ -8,7 +8,8 @@ A web-based tool for reading and studying the Quran with Thai translation (Mukht
 - **Thai Translation (Mukhtasar)** — Short translation and explanation of each ayah by Abu Hamza Al-Farsi
 - **English Translation** — Toggle "คำแปลไทย" to show Thai translation; uncheck to show English translation instead
 - **Tajweed Color Guide** — Info modal with complete tajweed color rules referenced from [alquran.cloud/tajweed-guide](https://alquran.cloud/tajweed-guide)
-- **Mukhtasar Content Viewer** — In Quran.com mode, click "Mukhtasar" button in the header to view full Mukhtasar translations from the current ayah to the end of the surah in a scrollable modal
+- **Tajweed Rules** — Comprehensive Tajweed rules reference in Thai (19 topics), accessible via "Tajweed Rules" button in the header, using data from [madinaharabic.com](https://www.madinaharabic.com/blog/tajweed-rules.html)
+- **Mukhtasar Content Viewer** — In Quran.com mode, click "Mukhtasar" button to view full Mukhtasar translations from current ayah to end of surah in a scrollable modal
 - **Mukhtasar Info** — Info modal explaining what Mukhtasar is and how to use it
 - **Maqasid Panel** — Topics by ayah group and overall content of each surah, displayed in the right panel with independent surah dropdown
 - **Toggle Right Panel** — Show/hide the Maqasid panel; the left panel expands to full width when hidden
@@ -24,23 +25,28 @@ A web-based tool for reading and studying the Quran with Thai translation (Mukht
 - `english-mukhtasar.js` — English translation data (`window.QURAN_ENGLISH_TRANSLATION_DATA`)
 - `maqasid_data.js` — Maqasid data for each surah (`window.QURAN_MAP_DATA`)
 - `quran_uthmani_data.js` — Uthmani script text from [tanzil.net](https://tanzil.net) (`window.QURAN_UTHMANI_DATA`)
+- `tajweed_rules_data.js` — Tajweed rules reference data in Thai (`window.TAJWEED_RULES_DATA`)
 
 ## Usage
 
 1. Open `index.html` in any modern web browser.
 2. Use the surah dropdown in the header to select a surah to read.
-3. Switch between **Tajweed** (requires internet), **Uthmani** (offline), or **Quran.com** text modes via the bookmark settings (ปุ่ม "ตั้งค่า").
+3. Click **ตั้งค่า** to open bookmark settings, where you can:
+   - Select surah and ayah
+   - Switch between **Tajweed** (online), **Uthmani** (offline), or **Quran.com** text modes
+   - Adjust Arabic and translation font sizes
 4. Toggle **คำแปลไทย** to show Thai translation; uncheck to show English translation instead.
 5. Toggle **Tajweed** to enable/disable colored tajweed highlighting.
 6. Toggle **Maqasid** to show/hide the right panel with surah objectives and themes.
-7. Adjust Arabic and translation font sizes via the **ตั้งค่า** button.
-8. In **Quran.com** mode, click **Mukhtasar** button to view full translation content from current ayah to end of surah.
+7. In **Quran.com** mode, click **Mukhtasar** to view full translation content from current ayah to end of surah.
+8. Click **Tajweed Rules** to open a comprehensive Tajweed rules reference in Thai.
 9. Your reading position is saved automatically — close and reopen the page to resume where you left off.
 
 ## Credits
 
-- Thai translation(Mukhtasar): [qul.tarteel.ai](https://qul.tarteel.ai)
+- Thai translation (Mukhtasar): [qul.tarteel.ai](https://qul.tarteel.ai)
 - Uthmani text: [tanzil.net](https://tanzil.net)
 - Ayah API: [alquran.cloud](https://alquran.cloud)
 - Tajweed guide: [alquran.cloud/tajweed-guide](https://alquran.cloud/tajweed-guide)
+- Tajweed rules content: [madinaharabic.com](https://www.madinaharabic.com/blog/tajweed-rules.html)
 - แผนที่อัลกุรอาน: [genfa.co](https://genfa.co)

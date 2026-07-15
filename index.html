@@ -21,6 +21,7 @@
 </div>
 <div class="bm-header" id="bmHeader"></div>
 <button class="mukhtasar-btn" onclick="openMukhtasarContentFromBookmark()" title="ดูเนื้อหาคำแปล Mukhtasar">Mukhtasar</button>
+<button class="tajweed-rules-btn" onclick="openTajweedRules()" title="ดู Tajweed Rules">Tajweed Rules</button>
 <div class="header-controls">
 <div class="toggle-group" id="translationToggleGroup">
 <label class="toggle-label">
@@ -292,6 +293,22 @@
 </div>
 </div>
 
+<!-- Tajweed Rules Modal -->
+<div class="modal-overlay" id="tajweedRulesModal" onclick="closeTajweedRules(event)">
+<div class="modal-box tajweed-rules-box" onclick="event.stopPropagation()">
+<div class="modal-header">
+<h2>Tajweed Rules</h2>
+<button class="modal-close" onclick="closeTajweedRules()">✕</button>
+</div>
+<div class="modal-body tajweed-rules-body">
+<div id="tajweedRulesContent" class="tajweed-rules-content"></div>
+</div>
+<div class="modal-footer">
+<button class="btn-save" onclick="closeTajweedRules()">ปิด</button>
+</div>
+</div>
+</div>
+
 <!-- Mukhtasar Content Modal -->
 <div class="modal-overlay" id="mukhtasarContentModal" onclick="closeMukhtasarContent(event)">
 <div class="modal-box mukhtasar-content-box" onclick="event.stopPropagation()">
@@ -366,6 +383,7 @@
 </div>
 </div>
 
+<script src="tajweed_rules_data.js"></script>
 <script src="maqasid_data.js"></script>
 <script src="thai-mukhtasar.js"></script>
 <script src="english-mukhtasar.js"></script>

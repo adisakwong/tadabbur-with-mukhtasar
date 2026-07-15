@@ -196,6 +196,52 @@ accent-color: #95d5b2;
 cursor: pointer;
 }
 
+.tajweed-rules-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #fff;
+  line-height: 1;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.tajweed-rules-btn:hover { background: rgba(255,255,255,0.15); }
+
+.tajweed-rules-box { max-width: 720px; }
+.tajweed-rules-body { gap: 0; padding: 0; }
+.tajweed-rules-content {
+  padding: 16px 20px;
+  overflow-y: auto;
+  max-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.tajweed-rules-content::-webkit-scrollbar { width: 6px; }
+.tajweed-rules-content::-webkit-scrollbar-track { background: transparent; }
+.tajweed-rules-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+.tajweed-rules-content::-webkit-scrollbar-thumb:hover { background: #aaa; }
+.tr-section {
+  background: #f8f6f2;
+  border: 1px solid #e8e5e0;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.tr-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1b4332;
+  margin-bottom: 8px;
+}
+.tr-body {
+  font-size: 0.85rem;
+  color: #444;
+  line-height: 1.8;
+}
+
 .mukhtasar-btn {
   display: none;
   background: none;

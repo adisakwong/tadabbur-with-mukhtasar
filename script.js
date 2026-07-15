@@ -386,6 +386,20 @@ function updateMukhtasarBtnVisibility() {
   if (tajweedGroup) tajweedGroup.style.display = isQuranCom ? 'none' : '';
 }
 
+function openTajweedRules() {
+  const data = window.TAJWEED_RULES_DATA || [];
+  const container = $('tajweedRulesContent');
+  container.innerHTML = data.length ? data.map(function(item) {
+    return '<div class="tr-section"><h3 class="tr-title">' + item.title + '</h3><div class="tr-body">' + item.content.replace(/\n/g, '<br>') + '</div></div>';
+  }).join('') : '<div style="padding:20px;color:#999;text-align:center;">ไม่พบข้อมูล Tajweed Rules</div>';
+  $('tajweedRulesModal').style.display = 'flex';
+}
+
+function closeTajweedRules(e) {
+  if (e && e.target !== $('tajweedRulesModal') && e.target.closest('.modal-box')) return;
+  $('tajweedRulesModal').style.display = 'none';
+}
+
 function openMukhtasarContentFromBookmark() {
   const bm = loadBookmark();
   if (bm && bm.surah && bm.ayah) {
