@@ -44,9 +44,9 @@ function restoreLeftPanel() {
 // ── Iframe HTML generators ──
 
 function getLeftPanelHTML() {
-  return '<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Thai:wght@300;400;500&display=swap\" rel=\"stylesheet\"><style>' +
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>@font-face{font-family:"UthmanicHafs_V22";src:url("font/UthmanicHafs_V22.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}</style><style>' +
     '*{margin:0;padding:0;box-sizing:border-box}' +
-    'body{font-family:\"Noto Sans Thai\",sans-serif;background:#fff;color:#1a1a1a;height:100vh;overflow:hidden}' +
+    'body{font-family:"Bai Jamjuree",sans-serif;background:#fff;color:#1a1a1a;height:100vh;overflow:hidden}' +
     '#C{height:100%;overflow-y:auto;padding:16px 20px}' +
     '.P,.L,.E{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:300px;color:#888;text-align:center;gap:12px}' +
     '.P.on,.L.on,.E.on{display:flex}' +
@@ -65,7 +65,7 @@ function getLeftPanelHTML() {
     '.AN{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:50%;background:#2d6a4f;color:#fff;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:4px}' +
     '.VB{flex:1;min-width:0}' +
     ':root{--fs:1.6rem;--tfs:0.88rem}' +
-    '.AT{font-family:\"Amiri\",\"Traditional Arabic\",serif;font-size:var(--fs);line-height:2;direction:rtl;text-align:right}' +
+    '.AT{font-family:"UthmanicHafs_V22",serif;font-size:var(--fs);line-height:2;direction:rtl;text-align:right}' +
     '.TT{font-size:var(--tfs);color:#000;line-height:1.6;margin-top:6px;padding-top:6px;border-top:1px dashed #e0ddd8}' +
     '.TT.x{display:none}' +
     '.TT.en{color:#555;font-style:italic}' +
@@ -106,12 +106,12 @@ function getLeftPanelHTML() {
 }
 
 function getRightPanelHTML() {
-  return '<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Thai:wght@300;400;500&display=swap\" rel=\"stylesheet\"><style>' +
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>@font-face{font-family:"UthmanicHafs_V22";src:url("font/UthmanicHafs_V22.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}</style><style>' +
     '*{margin:0;padding:0;box-sizing:border-box}' +
-    'body{font-family:\"Noto Sans Thai\",sans-serif;background:#fafaf8;color:#1a1a1a;height:100vh;overflow:hidden}' +
+    'body{font-family:"Bai Jamjuree",sans-serif;background:#fafaf8;color:#1a1a1a;height:100vh;overflow:hidden}' +
     '#content{height:100%;overflow-y:auto;padding:20px}' +
     '.mq-select-row{margin-bottom:16px}' +
-    '.mq-select-row select{width:100%;padding:8px 12px;border:1px solid #d0ccc6;border-radius:8px;font-size:.85rem;font-family:\"Noto Sans Thai\",sans-serif;color:#1a1a1a;background:#fff;cursor:pointer;outline:none;transition:border-color 0.15s}' +
+'.mq-select-row select{width:100%;padding:8px 12px;border:1px solid #d0ccc6;border-radius:8px;font-size:.85rem;font-family:"Bai Jamjuree",sans-serif;color:#1a1a1a;background:#fff;cursor:pointer;outline:none;transition:border-color 0.15s}' +
     '.mq-select-row select:focus{border-color:#2d6a4f;box-shadow:0 0 0 2px rgba(45,106,79,0.12)}' +
     '.mq-placeholder{display:flex;align-items:center;justify-content:center;min-height:200px;color:#aaa;text-align:center;font-size:.95rem}' +
     '.mq-header{margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #e0ddd8}' +
