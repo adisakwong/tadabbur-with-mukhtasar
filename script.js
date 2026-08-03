@@ -14,6 +14,7 @@ const state = {
   maqasidMap: {},
   surahMeta: {},
   textMode: 'tajweed',        // 'tajweed' | 'uthmani' | 'quran.com'
+  arabicFont: 'KFGQPCNastaleeq-Regular',
   arabicFontSize: 1.6,        // rem
   translationFontSize: 0.88   // rem
 };
@@ -44,7 +45,7 @@ function restoreLeftPanel() {
 // ── Iframe HTML generators ──
 
 function getLeftPanelHTML() {
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>@font-face{font-family:"UthmanicHafs_V22";src:url("font/UthmanicHafs_V22.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}</style><style>' +
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>@font-face{font-family:"UthmanicHafs_V22";src:url("font/UthmanicHafs_V22.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}@font-face{font-family:"KFGQPCNastaleeq-Regular";src:url("font/KFGQPCNastaleeq-Regular.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}</style><style>' +
     '*{margin:0;padding:0;box-sizing:border-box}' +
     'body{font-family:"Bai Jamjuree",sans-serif;background:#fff;color:#1a1a1a;height:100vh;overflow:hidden}' +
     '#C{height:100%;overflow-y:auto;padding:16px 20px}' +
@@ -64,8 +65,8 @@ function getLeftPanelHTML() {
     '.VH{display:flex;align-items:flex-start;gap:12px}' +
     '.AN{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:50%;background:#2d6a4f;color:#fff;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:4px}' +
     '.VB{flex:1;min-width:0}' +
-    ':root{--fs:1.6rem;--tfs:0.88rem}' +
-    '.AT{font-family:"UthmanicHafs_V22",serif;font-size:var(--fs);line-height:2;direction:rtl;text-align:right}' +
+    ':root{--fs:1.6rem;--tfs:0.88rem;--arabicFont:"' + state.arabicFont + '"}' +
+    '.AT{font-family:var(--arabicFont),serif;font-size:var(--fs);line-height:2;direction:rtl;text-align:right}' +
     '.TT{font-size:var(--tfs);color:#000;line-height:1.6;margin-top:6px;padding-top:6px;border-top:1px dashed #e0ddd8}' +
     '.TT.x{display:none}' +
     '.TT.en{color:#555;font-style:italic}' +
@@ -100,7 +101,7 @@ function getLeftPanelHTML() {
   'function rd(v,s,m,fs,tfs){var e=document.getElementById("VL");if(fs)document.documentElement.style.setProperty("--fs",fs+"rem");if(tfs)document.documentElement.style.setProperty("--tfs",tfs+"rem");e.innerHTML=v.map(function(a){var h=pT(a.text);var banners=getThematicBanners(a.numberInSurah,m);return banners+"<div class=\\\"V\\\" id=\\\"v"+a.numberInSurah+"\\\"><div class=\\\"VH\\\"><span class=\\\"AN\\\">"+a.numberInSurah+"</span><div class=\\\"VB\\\"><div class=\\\"AT\\\">"+h+"</div>"+(a.translation?"<div class=\\\"TT th"+(s?"":" x")+"\\\">"+a.translation+"</div>":"")+(a.englishTranslation?"<div class=\\\"TT en"+(s?" x":"")+"\\\">"+a.englishTranslation+"</div>":"")+"</div></div></div>"}).join("")}' +
   'function sc(n){var t=document.getElementById("v"+n);if(t)t.scrollIntoView({block:"start",behavior:"smooth"})}' +
   'function sw(i){document.querySelectorAll("#C>.on").forEach(function(e){e.classList.remove("on")});var e=document.getElementById(i);if(e)e.classList.add("on")}' +
-  'window.addEventListener("message",function(e){var d=e.data;if(d.type==="render"){sw("VL");rd(d.verses,d.showTranslation,d.maqasid,d.arabicFontSize,d.translationFontSize);if(d.targetAyah)setTimeout(function(){sc(d.targetAyah)},80)}else if(d.type==="setFontSize"){document.documentElement.style.setProperty("--fs",d.size+"rem")}else if(d.type==="setTranslationFontSize"){document.documentElement.style.setProperty("--tfs",d.size+"rem")}else if(d.type==="toggleTranslation"){document.querySelectorAll(".TT.th").forEach(function(e){e.classList.toggle("x",!d.show)});document.querySelectorAll(".TT.en").forEach(function(e){e.classList.toggle("x",d.show)})}else if(d.type==="toggleTajweed"){document.body.classList.toggle("Y",!d.enabled)}else if(d.type==="showLoading"){sw("L")}else if(d.type==="showPlaceholder"){sw("P")}else if(d.type==="showError"){document.getElementById("eD").textContent=d.msg;sw("E")}});' +
+  'window.addEventListener("message",function(e){var d=e.data;if(d.type==="render"){sw("VL");if(d.arabicFont)document.documentElement.style.setProperty("--arabicFont",d.arabicFont);rd(d.verses,d.showTranslation,d.maqasid,d.arabicFontSize,d.translationFontSize);if(d.targetAyah)setTimeout(function(){sc(d.targetAyah)},80)}else if(d.type==="setFontSize"){document.documentElement.style.setProperty("--fs",d.size+"rem")}else if(d.type==="setTranslationFontSize"){document.documentElement.style.setProperty("--tfs",d.size+"rem")}else if(d.type==="setArabicFont"){document.documentElement.style.setProperty("--arabicFont",d.font)}else if(d.type==="toggleTranslation"){document.querySelectorAll(".TT.th").forEach(function(e){e.classList.toggle("x",!d.show)});document.querySelectorAll(".TT.en").forEach(function(e){e.classList.toggle("x",d.show)})}else if(d.type==="toggleTajweed"){document.body.classList.toggle("Y",!d.enabled)}else if(d.type==="showLoading"){sw("L")}else if(d.type==="showPlaceholder"){sw("P")}else if(d.type==="showError"){document.getElementById("eD").textContent=d.msg;sw("E")}});' +
   'window.parent.postMessage({type:"leftReady"},"*")' +
   '</script></body></html>';
 }
@@ -184,9 +185,10 @@ function initFrames() {
 
 async function init() {
   initFrames();
-  // restore textMode and fontSize from bookmark before loading
+  // restore textMode and font settings from bookmark before loading
   const savedBm = loadBookmark();
   if (savedBm && savedBm.textMode) state.textMode = savedBm.textMode;
+  if (savedBm && savedBm.arabicFont) state.arabicFont = savedBm.arabicFont;
   if (savedBm && savedBm.arabicFontSize) state.arabicFontSize = savedBm.arabicFontSize;
   try {
     const [translationData, englishTranslationData] = await Promise.all([
@@ -268,14 +270,15 @@ function getMaqasid(surahId) {
 
 let _skipBookmarkSave = false;
 
-function saveBookmark(surah, ayah, textMode, fontSize, translationFontSize) {
+function saveBookmark(surah, ayah, textMode, fontSize, translationFontSize, arabicFont) {
   const s = state.surahs.find(x => x.number === surah);
   if (!s) return;
   const timestamp = new Date().toISOString(); // auto timestamp
   const mode = textMode || state.textMode || 'tajweed';
   const fs = fontSize != null ? fontSize : (state.arabicFontSize || 1.6);
   const tfs = translationFontSize != null ? translationFontSize : (state.translationFontSize || 0.88);
-  const bm = { surah, ayah, surahName: s.englishName, surahArabic: s.name, timestamp, textMode: mode, arabicFontSize: fs, translationFontSize: tfs };
+  const font = arabicFont || state.arabicFont || 'KFGQPCNastaleeq-Regular';
+  const bm = { surah, ayah, surahName: s.englishName, surahArabic: s.name, timestamp, textMode: mode, arabicFont: font, arabicFontSize: fs, translationFontSize: tfs };
   try { localStorage.setItem(BOOKMARK_KEY, JSON.stringify(bm)); } catch {}
   updateBookmarkDisplay(bm);
 }
@@ -342,6 +345,11 @@ function openBookmarkForm() {
     const savedMode = bm.textMode || state.textMode || 'tajweed';
     const textModeSelect = $('bmTextMode');
     if (textModeSelect) textModeSelect.value = savedMode;
+    // restore arabic font dropdown
+    const savedArabicFont = bm.arabicFont || state.arabicFont || 'KFGQPCNastaleeq-Regular';
+    const arabicFontSelect = $('bmArabicFont');
+    if (arabicFontSelect) arabicFontSelect.value = savedArabicFont;
+    state.arabicFont = savedArabicFont;
     // restore font size
     const savedFs = bm.arabicFontSize || state.arabicFontSize || 1.6;
     setFontSize(savedFs, false);
@@ -355,6 +363,8 @@ function openBookmarkForm() {
     // default to current state mode
     const textModeSelect = $('bmTextMode');
     if (textModeSelect) textModeSelect.value = state.textMode || 'tajweed';
+    const arabicFontSelect = $('bmArabicFont');
+    if (arabicFontSelect) arabicFontSelect.value = state.arabicFont || 'KFGQPCNastaleeq-Regular';
     setFontSize(state.arabicFontSize || 1.6, false);
     setTranslationFontSize(state.translationFontSize || 0.88, false);
   }
@@ -481,14 +491,18 @@ function submitBookmarkForm() {
   if (!surah || !ayah) { alert('กรุณาเลือกซูเราะห์และอายะห์'); return; }
   const textModeSelect = $('bmTextMode');
   const textMode = textModeSelect ? textModeSelect.value : 'tajweed';
+  const arabicFontSelect = $('bmArabicFont');
+  const arabicFont = arabicFontSelect ? arabicFontSelect.value : state.arabicFont;
   const fontSize = parseFloat($('bmFontSize').value) || 1.6;
   const translationFontSize = parseFloat($('bmTranslationFontSize').value) || 0.88;
   state.textMode = textMode;
+  state.arabicFont = arabicFont;
   state.arabicFontSize = fontSize;
   state.translationFontSize = translationFontSize;
   updateMukhtasarBtnVisibility();
-  saveBookmark(surah, ayah, textMode, fontSize, translationFontSize);
-  // push font size to left panel immediately
+  saveBookmark(surah, ayah, textMode, fontSize, translationFontSize, arabicFont);
+  // push font settings to left panel immediately
+  sendToLeft({ type: 'setArabicFont', font: arabicFont });
   sendToLeft({ type: 'setFontSize', size: fontSize });
   sendToLeft({ type: 'setTranslationFontSize', size: translationFontSize });
   _skipBookmarkSave = true;
@@ -628,6 +642,7 @@ function selectSurah(surahNumber, retry) {
         showTranslation: $('toggleTranslation').checked,
         targetAyah,
         maqasid: getMaqasid(String(surahNumber)),
+        arabicFont: state.arabicFont || 'KFGQPCNastaleeq-Regular',
         arabicFontSize: state.arabicFontSize || 1.6,
         translationFontSize: state.translationFontSize || 0.88
       });
