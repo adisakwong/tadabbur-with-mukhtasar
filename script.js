@@ -301,7 +301,7 @@ function updateBookmarkDisplay(bm) {
   const mi = String(d.getMinutes()).padStart(2, '0');
   const timeStr = `${dd}/${mm}/${yy} ${hh}:${mi}`;
   el.innerHTML = `
-  <span class="bm-text">${bm.surahName} (${bm.surah}) : ${bm.ayah}</span>
+  <span class="bm-text">${bm.surah} : ${bm.ayah}</span>
   <span class="bm-time">${timeStr}</span>
   `;
 }
