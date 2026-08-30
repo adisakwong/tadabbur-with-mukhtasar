@@ -14,7 +14,7 @@ const state = {
   maqasidMap: {},
   surahMeta: {},
   textMode: 'tajweed',        // 'tajweed' | 'uthmani' | 'quran.com'
-  arabicFont: 'KFGQPCNastaleeq-Regular',
+  arabicFont: '"Amiri", serif',
   arabicFontSize: 1.6,        // rem
   translationFontSize: 0.88   // rem
 };
@@ -45,7 +45,7 @@ function restoreLeftPanel() {
 // ── Iframe HTML generators ──
 
 function getLeftPanelHTML() {
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>@font-face{font-family:"UthmanicHafs_V22";src:url("font/UthmanicHafs_V22.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}@font-face{font-family:"KFGQPCNastaleeq-Regular";src:url("font/KFGQPCNastaleeq-Regular.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}</style><style>' +
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;700&family=Scheherazade+New:wght@400;500;700&display=swap" rel="stylesheet"><style>@font-face{font-family:"UthmanicHafs_V22";src:url("font/UthmanicHafs_V22.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}@font-face{font-family:"KFGQPCNastaleeq-Regular";src:url("font/KFGQPCNastaleeq-Regular.ttf") format("truetype");font-weight:normal;font-style:normal;font-display:swap}</style><style>' +
     '*{margin:0;padding:0;box-sizing:border-box}' +
     'body{font-family:"Bai Jamjuree",sans-serif;background:#fff;color:#1a1a1a;height:100vh;overflow:hidden}' +
     '#C{height:100%;overflow-y:auto;padding:16px 20px}' +
@@ -65,8 +65,8 @@ function getLeftPanelHTML() {
     '.VH{display:flex;align-items:flex-start;gap:12px}' +
     '.AN{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:50%;background:#2d6a4f;color:#fff;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:4px}' +
     '.VB{flex:1;min-width:0}' +
-    ':root{--fs:1.6rem;--tfs:0.88rem;--arabicFont:"' + state.arabicFont + '"}' +
-    '.AT{font-family:var(--arabicFont),serif;font-size:var(--fs);line-height:2;direction:rtl;text-align:right}' +
+    ':root{--fs:1.6rem;--tfs:0.88rem;--arabicFont:' + state.arabicFont + '}'+
+    '.AT{font-family:var(--arabicFont);font-size:var(--fs);line-height:2;direction:rtl;text-align:right}' +
     '.TT{font-size:var(--tfs);color:#000;line-height:1.6;margin-top:6px;padding-top:6px;border-top:1px dashed #e0ddd8}' +
     '.TT.x{display:none}' +
     '.TT.en{color:#555;font-style:italic}' +
@@ -277,7 +277,7 @@ function saveBookmark(surah, ayah, textMode, fontSize, translationFontSize, arab
   const mode = textMode || state.textMode || 'tajweed';
   const fs = fontSize != null ? fontSize : (state.arabicFontSize || 1.6);
   const tfs = translationFontSize != null ? translationFontSize : (state.translationFontSize || 0.88);
-  const font = arabicFont || state.arabicFont || 'KFGQPCNastaleeq-Regular';
+  const font = arabicFont || state.arabicFont || '"Amiri", serif';
   const bm = { surah, ayah, surahName: s.englishName, surahArabic: s.name, timestamp, textMode: mode, arabicFont: font, arabicFontSize: fs, translationFontSize: tfs };
   try { localStorage.setItem(BOOKMARK_KEY, JSON.stringify(bm)); } catch {}
   updateBookmarkDisplay(bm);
@@ -346,7 +346,7 @@ function openBookmarkForm() {
     const textModeSelect = $('bmTextMode');
     if (textModeSelect) textModeSelect.value = savedMode;
     // restore arabic font dropdown
-    const savedArabicFont = bm.arabicFont || state.arabicFont || 'KFGQPCNastaleeq-Regular';
+    const savedArabicFont = bm.arabicFont || state.arabicFont || '"Amiri", serif';
     const arabicFontSelect = $('bmArabicFont');
     if (arabicFontSelect) arabicFontSelect.value = savedArabicFont;
     state.arabicFont = savedArabicFont;
@@ -364,7 +364,7 @@ function openBookmarkForm() {
     const textModeSelect = $('bmTextMode');
     if (textModeSelect) textModeSelect.value = state.textMode || 'tajweed';
     const arabicFontSelect = $('bmArabicFont');
-    if (arabicFontSelect) arabicFontSelect.value = state.arabicFont || 'KFGQPCNastaleeq-Regular';
+    if (arabicFontSelect) arabicFontSelect.value = state.arabicFont || '"Amiri", serif';
     setFontSize(state.arabicFontSize || 1.6, false);
     setTranslationFontSize(state.translationFontSize || 0.88, false);
   }
@@ -566,6 +566,18 @@ function renderSurahList() {
 
 // ── Select Surah ──
 
+function loadVersesAlquran(surahNumber) {
+  return fetch(`${API_BASE}/surah/${surahNumber}`)
+    .then(resp => {
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      return resp.json();
+    })
+    .then(json => {
+      if (json.code !== 200) throw new Error('API error: ' + json.status);
+      return json.data.ayahs;
+    });
+}
+
 function loadVersesTajweed(surahNumber) {
   return fetch(`${API_BASE}/surah/${surahNumber}/quran-tajweed`)
     .then(resp => {
@@ -598,7 +610,7 @@ function selectSurah(surahNumber, retry) {
   const surahData = { name: surah.name, englishName: surah.englishName, number: surah.number };
   sendToRight({ type: 'render', maqasid: maqasid || null, surah: surahData });
 
-  const mode = state.textMode || 'tajweed';
+  const mode = state.textMode || 'alquran';
   const bm = loadBookmark();
   const targetAyah = (bm && bm.surah === surahNumber) ? bm.ayah : 1;
   state.currentAyah = targetAyah;
@@ -642,7 +654,7 @@ function selectSurah(surahNumber, retry) {
         showTranslation: $('toggleTranslation').checked,
         targetAyah,
         maqasid: getMaqasid(String(surahNumber)),
-        arabicFont: state.arabicFont || 'KFGQPCNastaleeq-Regular',
+        arabicFont: state.arabicFont || '"Amiri", serif',
         arabicFontSize: state.arabicFontSize || 1.6,
         translationFontSize: state.translationFontSize || 0.88
       });
