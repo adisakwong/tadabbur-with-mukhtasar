@@ -381,6 +381,36 @@ function openAbout() {
   $('aboutModal').style.display = 'flex';
 }
 
+// ── Mobile hamburger menu ──
+
+function toggleMobileMenu() {
+  const open = document.body.classList.toggle('menu-open');
+  const btn = $('hamburgerBtn');
+  if (btn) {
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+}
+
+function closeMobileMenu() {
+  document.body.classList.remove('menu-open');
+  const btn = $('hamburgerBtn');
+  if (btn) {
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeMobileMenu();
+});
+
+document.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('menu-open')) return;
+  const btn = e.target.closest('.mukhtasar-btn, .tajweed-rules-btn, .bm-setup-btn');
+  if (btn) closeMobileMenu();
+});
+
 function closeAbout(e) {
   if (e && e.target !== $('aboutModal') && e.target.closest('.modal-box')) return;
   $('aboutModal').style.display = 'none';
